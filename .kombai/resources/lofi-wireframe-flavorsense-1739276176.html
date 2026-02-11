@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlavorSense AI - Redesigned Wireframe</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: #f5f5f5;
+      color: #333;
+      padding: 20px;
+    }
+
+    .wireframe-header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 3px solid #999;
+    }
+
+    .wireframe-header h1 {
+      font-size: 24px;
+      color: #000;
+      margin-bottom: 10px;
+    }
+
+    .wireframe-header p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Header Section */
+    .header {
+      background: #fff;
+      border: 3px solid #333;
+      padding: 30px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: bold;
+      color: #000;
+      margin-bottom: 10px;
+    }
+
+    .tagline {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    /* Search Section */
+    .search-section {
+      background: #fff;
+      border: 3px solid #333;
+      padding: 30px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      z-index: 10;
+      color: white;
+    }
+
+    .badge-reuse {
+      background: #4CAF50;
+    }
+
+    .badge-new {
+      background: #FF9800;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #000;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #333;
+      background: #fff;
+      font-size: 16px;
+      font-family: 'Comic Sans MS', cursive;
+    }
+
+    .form-input::placeholder {
+      color: #999;
+    }
+
+    .form-select {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #333;
+      background: #fff;
+      font-size: 16px;
+      font-family: 'Comic Sans MS', cursive;
+      cursor: pointer;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 15px;
+      border: 3px solid #000;
+      background: #ccc;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: 'Comic Sans MS', cursive;
+    }
+
+    .btn-primary {
+      background: #666;
+      color: #fff;
+    }
+
+    /* Info Cards */
+    .info-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .info-card {
+      background: #fff;
+      border: 3px solid #333;
+      padding: 20px;
+      position: relative;
+    }
+
+    .info-card-icon {
+      width: 60px;
+      height: 60px;
+      background: #ccc;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      font-size: 32px;
+    }
+
+    .info-card-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #000;
+    }
+
+    .info-card-text {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* Results Section */
+    .results-section {
+      background: #fff;
+      border: 3px solid #333;
+      padding: 30px;
+      margin-bottom: 20px;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #ccc;
+    }
+
+    .results-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #000;
+    }
+
+    .results-count {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .recipe-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .recipe-card {
+      border: 3px solid #333;
+      padding: 20px;
+      background: #fff;
+      position: relative;
+    }
+
+    .recipe-image {
+      width: 100%;
+      height: 180px;
+      background: #ccc;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .recipe-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #000;
+    }
+
+    .recipe-meta {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .recipe-description {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .recipe-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      border: 2px solid #333;
+      background: #f5f5f5;
+      font-size: 12px;
+    }
+
+    .recipe-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-small {
+      padding: 10px 15px;
+      border: 2px solid #333;
+      background: #ccc;
+      font-size: 14px;
+      cursor: pointer;
+      font-family: 'Comic Sans MS', cursive;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: #f5f5f5;
+      border: 3px dashed #999;
+      position: relative;
+    }
+
+    .empty-icon {
+      width: 80px;
+      height: 80px;
+      background: #ccc;
+      border: 2px solid #333;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+
+    .empty-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #000;
+    }
+
+    .empty-text {
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* Loading State */
+    .loading-state {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 6px solid #ccc;
+      border-top-color: #000;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal {
+      background: #fff;
+      border: 4px solid #000;
+      padding: 30px;
+      max-width: 600px;
+      width: 90%;
+      position: relative;
+    }
+
+    .modal-header {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #000;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 30px;
+      height: 30px;
+      border: 2px solid #000;
+      background: #ccc;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .flavor-profile {
+      margin-bottom: 15px;
+      padding: 15px;
+      border: 2px solid #ccc;
+      background: #f5f5f5;
+    }
+
+    .flavor-ingredient {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #000;
+    }
+
+    .flavor-attributes {
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .button-group {
+        flex-direction: column;
+      }
+
+      .recipe-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .info-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wireframe-header">
+    <h1>FlavorSense AI - Redesigned Homepage Wireframe</h1>
+    <p>Balsamiq-style wireframe showing improved layout, component structure, and reusable components</p>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <!-- REUSABLE: Can use custom styled header component -->
+    <header class="header">
+      <div class="logo">🍳 FlavorSense AI</div>
+      <p class="tagline">Discover recipes that match your taste preferences using AI-powered flavor analysis</p>
+    </header>
+
+    <!-- Search Form Section -->
+    <!-- NEW COMPONENT: SearchForm (to be created at frontend/src/components/SearchForm.jsx) -->
+    <section class="search-section">
+      <span class="badge badge-new" title="To be created at frontend/src/components/SearchForm.jsx">[NEW] SearchForm</span>
+      
+      <div class="form-group">
+        <label class="form-label" for="ingredients">
+          <span>🥕</span> What ingredients do you have?
+        </label>
+        <input 
+          type="text" 
+          id="ingredients"
+          class="form-input" 
+          placeholder="e.g., chicken, tomatoes, basil (comma separated)"
+          aria-label="Enter ingredients separated by commas"
+        />
+        <div style="font-size: 12px; color: #666; margin-top: 5px;">
+          Tip: Enter at least 2-3 ingredients for better results
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="preference">
+          <span>🌶️</span> What flavor do you prefer?
+        </label>
+        <select id="preference" class="form-select" aria-label="Select your flavor preference">
+          <option value="spicy">Spicy 🔥</option>
+          <option value="savory">Savory 🧂</option>
+          <option value="sweet">Sweet 🍯</option>
+          <option value="sour">Sour 🍋</option>
+          <option value="umami">Umami 🍄</option>
+        </select>
+      </div>
+
+      <!-- REUSABLE: Button from frontend/src/components/Button.jsx -->
+      <div class="button-group" style="position: relative;">
+        <span class="badge badge-reuse" title="frontend/src/components/Button.jsx">[REUSE] Button</span>
+        <button class="btn btn-primary">
+          🔍 Discover Recipes
+        </button>
+        <button class="btn">
+          ↻ Clear
+        </button>
+      </div>
+    </section>
+
+    <!-- Info Cards Section -->
+    <!-- NEW COMPONENT: InfoCard (to be created at frontend/src/components/InfoCard.jsx) -->
+    <div class="info-cards">
+      <div class="info-card">
+        <span class="badge badge-new" title="To be created at frontend/src/components/InfoCard.jsx">[NEW] InfoCard</span>
+        <div class="info-card-icon">🧪</div>
+        <div class="info-card-title">AI Flavor Analysis</div>
+        <div class="info-card-text">Advanced algorithms analyze ingredient combinations to predict flavor profiles</div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icon">📊</div>
+        <div class="info-card-title">Smart Matching</div>
+        <div class="info-card-text">Get personalized recipe recommendations based on your taste preferences</div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icon">⭐</div>
+        <div class="info-card-title">Quality Scores</div>
+        <div class="info-card-text">Recipes ranked by compatibility with your ingredients and preferences</div>
+      </div>
+    </div>
+
+    <!-- Results Section (Hidden initially, shown after search) -->
+    <section class="results-section">
+      <div class="results-header">
+        <h2 class="results-title">Recipe Results</h2>
+        <span class="results-count">Found 8 recipes</span>
+      </div>
+
+      <!-- REUSABLE: Card from frontend/src/components/Card.jsx -->
+      <!-- NEW COMPONENT: RecipeCard (enhanced version of existing at frontend/src/components/RecipeCard.jsx) -->
+      <div class="recipe-grid">
+        <article class="recipe-card">
+          <span class="badge badge-new" title="Enhanced version at frontend/src/components/RecipeCard.jsx">[NEW] RecipeCard</span>
+          <div class="recipe-image">[Recipe Image: 300x180]</div>
+          <h3 class="recipe-title">Spicy Chicken Basil Stir-Fry</h3>
+          <div class="recipe-meta">
+            <span>⭐ 95 Score</span>
+            <span>⏱️ 25 min</span>
+            <span>🌶️ Spicy</span>
+          </div>
+          <p class="recipe-description">
+            A quick and flavorful dish combining tender chicken with fresh basil and aromatic spices...
+          </p>
+          <div class="recipe-tags">
+            <span class="tag">chicken</span>
+            <span class="tag">basil</span>
+            <span class="tag">quick</span>
+          </div>
+          <div class="recipe-actions">
+            <button class="btn-small">👁️ View Details</button>
+            <button class="btn-small">🧪 Flavor Analysis</button>
+          </div>
+        </article>
+
+        <article class="recipe-card">
+          <div class="recipe-image">[Recipe Image: 300x180]</div>
+          <h3 class="recipe-title">Tomato Basil Pasta</h3>
+          <div class="recipe-meta">
+            <span>⭐ 87 Score</span>
+            <span>⏱️ 20 min</span>
+            <span>🧂 Savory</span>
+          </div>
+          <p class="recipe-description">
+            Classic Italian pasta with fresh tomatoes and aromatic basil in a light sauce...
+          </p>
+          <div class="recipe-tags">
+            <span class="tag">tomato</span>
+            <span class="tag">basil</span>
+            <span class="tag">pasta</span>
+          </div>
+          <div class="recipe-actions">
+            <button class="btn-small">👁️ View Details</button>
+            <button class="btn-small">🧪 Flavor Analysis</button>
+          </div>
+        </article>
+
+        <article class="recipe-card">
+          <div class="recipe-image">[Recipe Image: 300x180]</div>
+          <h3 class="recipe-title">Herb-Crusted Chicken</h3>
+          <div class="recipe-meta">
+            <span>⭐ 82 Score</span>
+            <span>⏱️ 35 min</span>
+            <span>🧂 Savory</span>
+          </div>
+          <p class="recipe-description">
+            Juicy chicken breast with a crispy herb crust, perfect for dinner...
+          </p>
+          <div class="recipe-tags">
+            <span class="tag">chicken</span>
+            <span class="tag">herbs</span>
+            <span class="tag">baked</span>
+          </div>
+          <div class="recipe-actions">
+            <button class="btn-small">👁️ View Details</button>
+            <button class="btn-small">🧪 Flavor Analysis</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Empty State (shown when no results) -->
+    <!-- REUSABLE: EmptyState from frontend/src/components/EmptyState.jsx -->
+    <div class="empty-state" style="margin-bottom: 20px;">
+      <span class="badge badge-reuse" title="frontend/src/components/EmptyState.jsx">[REUSE] EmptyState</span>
+      <div class="empty-icon">🔍</div>
+      <h3 class="empty-title">No recipes found</h3>
+      <p class="empty-text">Try adjusting your ingredients or flavor preferences</p>
+    </div>
+
+    <!-- Loading State -->
+    <!-- REUSABLE: LoadingSpinner from frontend/src/components/LoadingSpinner.jsx -->
+    <div class="loading-state">
+      <span class="badge badge-reuse" title="frontend/src/components/LoadingSpinner.jsx">[REUSE] LoadingSpinner</span>
+      <div class="spinner"></div>
+      <p>Analyzing flavor combinations...</p>
+    </div>
+  </div>
+
+  <!-- Flavor Analysis Modal -->
+  <!-- REUSABLE: FlavorModal (enhanced version of existing at frontend/src/components/FlavorModal.jsx) -->
+  <div class="modal-overlay">
+    <div class="modal">
+      <span class="badge badge-new" title="Enhanced version at frontend/src/components/FlavorModal.jsx">[NEW] FlavorModal</span>
+      <div class="modal-close">×</div>
+      <h2 class="modal-header">🧪 Flavor Profile Analysis</h2>
+      
+      <div class="flavor-profile">
+        <div class="flavor-ingredient">Chicken</div>
+        <div class="flavor-attributes">
+          <strong>Taste:</strong> savory, umami<br>
+          <strong>Aroma:</strong> meaty, mild<br>
+          <strong>Texture:</strong> tender, juicy
+        </div>
+      </div>
+
+      <div class="flavor-profile">
+        <div class="flavor-ingredient">Basil</div>
+        <div class="flavor-attributes">
+          <strong>Taste:</strong> sweet, peppery<br>
+          <strong>Aroma:</strong> herbal, fresh<br>
+          <strong>Texture:</strong> soft, leafy
+        </div>
+      </div>
+
+      <div class="flavor-profile">
+        <div class="flavor-ingredient">Tomatoes</div>
+        <div class="flavor-attributes">
+          <strong>Taste:</strong> sweet, acidic, umami<br>
+          <strong>Aroma:</strong> fresh, earthy<br>
+          <strong>Texture:</strong> juicy, soft
+        </div>
+      </div>
+
+      <!-- REUSABLE: Button from frontend/src/components/Button.jsx -->
+      <button class="btn" style="width: 100%; margin-top: 20px;">Close</button>
+    </div>
+  </div>
+
+</body>
+</html>
