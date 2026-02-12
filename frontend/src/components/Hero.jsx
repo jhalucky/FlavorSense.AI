@@ -26,7 +26,7 @@ export default function Hero() {
           </div>
 
           {/* Main heading */}
-          <h1 className="animate-fade-in-up delay-100 mb-6 bg-gradient-to-br from-slate-900 via-emerald-800 to-slate-700 bg-clip-text text-6xl font-bold leading-tight tracking-tight text-transparent sm:text-7xl lg:text-8xl">
+          <h1 className="animate-fade-in-up delay-100 mb-6 bg-gradient-to-br from-slate-900 via-emerald-800 to-slate-700 bg-clip-text text-5xl font-bold leading-tight tracking-tight text-transparent sm:text-7xl lg:text-8xl">
             FlavorSense AI
           </h1>
 
