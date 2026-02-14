@@ -58,32 +58,55 @@ export const handleIngredientSearch = async (req, res) => {
     const { ingredients, page = 1 } = req.body;
 
     if (!ingredients || ingredients.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "Ingredients required",
+      return res.json({
+        success: true,
+        recipes: [],
+        pagination: null,
       });
     }
 
+    const cacheKey = ingredients.join(",") + `-page-${page}`;
+
+    // 🔹 If cached → return instantly
+    if (ingredientCache.has(cacheKey)) {
+      console.log("Returning cached data");
+      return res.json(ingredientCache.get(cacheKey));
+    }
+
+    // 🔹 Try real API
     const apiResponse = await fetchByIngredients(ingredients, page, 25);
 
-    const recipes = apiResponse?.payload?.data || [];
-    const pagination = apiResponse?.payload?.pagination || null;
-
-    return res.json({
+    const safeResponse = {
       success: true,
-      recipes,
-      pagination,
-    });
+      recipes: apiResponse?.payload?.data || [],
+      pagination: apiResponse?.payload?.pagination || null,
+    };
+
+    // 🔹 Store in cache
+    ingredientCache.set(cacheKey, safeResponse);
+
+    return res.json(safeResponse);
 
   } catch (error) {
-    console.error("Ingredient Search Error:", error.message);
+    console.error("Ingredient API failed:", error.message);
 
-    return res.status(500).json({
-      success: false,
-      message: "Ingredient search failed",
+    // 🔹 If cache exists for that key → return cached
+    const cacheKey = req.body.ingredients?.join(",") + `-page-${req.body.page || 1}`;
+
+    if (ingredientCache.has(cacheKey)) {
+      console.log("API failed, returning cached fallback");
+      return res.json(ingredientCache.get(cacheKey));
+    }
+
+    // 🔹 If nothing available → safe empty response
+    return res.json({
+      success: true,
+      recipes: [],
+      pagination: null,
     });
   }
 };
+
 
 
 
