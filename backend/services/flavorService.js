@@ -1,8 +1,37 @@
-import axios from "axios";
-import { mockFlavorProfiles } from "../mocks/flavorMock.js";
+import { flavorAPI } from "../utils/axiosInstance.js";
 
-export const getFlavorProfile = async (ingredient) => {
-  return mockFlavorProfiles[ingredient.toLowerCase()] || { taste: [] };
+// GET FLAVOR BY COMMON NAME
+export const getFlavorByName = async (name) => {
+  const response = await flavorAPI.get(
+    "/flavor-api/by-commonName",
+    {
+      params: { name },
+    }
+  );
 
-  // 🔥 Replace with real API later
+  return response.data;
+};
+
+// GET FLAVOR BY PROFILE
+export const getFlavorByProfile = async (profile) => {
+  const response = await flavorAPI.get(
+    "/flavor-api/by-flavorProfile",
+    {
+      params: { profile },
+    }
+  );
+
+  return response.data;
+};
+
+// GET ENTITIES BY NATURAL SOURCE
+export const getByNaturalSource = async (source) => {
+  const response = await flavorAPI.get(
+    "/flavor-api/by-natural-source",
+    {
+      params: { source },
+    }
+  );
+
+  return response.data;
 };
