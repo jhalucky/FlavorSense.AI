@@ -10,10 +10,10 @@ export default function Navbar() {
             </div>
             <div className="flex flex-col">
               <span className="text-lg font-bold tracking-tight text-slate-900">
-                FlavorSense AI
+                FlavorSense.AI
               </span>
               <span className="text-xs text-slate-500">
-                Flavor Intelligence Platform
+                {/* Flavor Intelligence Platform */}
               </span>
             </div>
           </div>

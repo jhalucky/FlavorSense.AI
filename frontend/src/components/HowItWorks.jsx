@@ -9,14 +9,6 @@ export default function HowItWorks() {
       shadowColor: "shadow-blue-200",
     },
     {
-      icon: "🎯",
-      title: "Preference Alignment Engine",
-      description:
-        "Machine learning algorithms align your taste preferences with recipe databases to deliver personalized matches",
-      gradient: "from-emerald-500 to-lime-400",
-      shadowColor: "shadow-emerald-200",
-    },
-    {
       icon: "⚡",
       title: "Smart Ranking System",
       description:
