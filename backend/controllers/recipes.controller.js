@@ -102,6 +102,49 @@ export const handleIngredientSearch = async (req, res) => {
 
 
 // import axios from "axios";
+// import axios from "axios";
+
+/* ===============================
+   RECIPE NUTRITION INFO
+================================= */
+
+export const handleNutritionInfo = async (req, res) => {
+  try {
+    const { recipeId } = req.query;
+
+    if (!recipeId) {
+      return res.status(400).json({
+        success: false,
+        message: "Recipe ID required",
+      });
+    }
+
+    const response = await axios.get(
+      `${process.env.RECIPEDB_BASE_URL}/recipe2-api/recipe-nutri/nutritioninfo`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.FOODOSCOPE_API_KEY}`,
+        },
+        params: {
+          recipeId,
+        },
+      }
+    );
+
+    return res.json({
+      success: true,
+      nutrition: response.data?.data || null,
+    });
+
+  } catch (error) {
+    console.error("Nutrition API Error:", error.response?.data || error.message);
+
+    return res.status(500).json({
+      success: false,
+      message: "Nutrition fetch failed",
+    });
+  }
+};
 
 export const handleCuisineFilter = async (req, res) => {
   try {

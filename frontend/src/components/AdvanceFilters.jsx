@@ -1,100 +1,99 @@
-import { useState} from "react";
+import { useState } from "react";
 
-export default function AdvancedFilters({
-  applyFilter,
-  recipes = [],
-}) {
-  const [region, setRegion] = useState("");
-  // suggestions are derived from region and allRegions, so no need for state
-  const [flavor, setFlavor] = useState("");
-  const [diet, setDiet] = useState("");
+export default function AdvancedFilters({ applyFilter, regions = [] }) {
+  const [regionQuery, setRegionQuery] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [minCalories, setMinCalories] = useState("");
   const [maxCalories, setMaxCalories] = useState("");
+  const [flavor, setFlavor] = useState("");
+  const [diet, setDiet] = useState("");
 
-  /* =============================
-     Extract unique regions dynamically
-  ============================== */
-  const allRegions = [
-    ...new Set(recipes.map((r) => r.Region).filter(Boolean)),
-  ];
+  // 🔎 Filter matching regions
+  const filteredRegions = regions.filter((r) =>
+    r.toLowerCase().includes(regionQuery.toLowerCase())
+  );
 
-  /* =============================
-     Autocomplete logic
-  ============================== */
-  // suggestions are derived, not stored
-  const suggestions = region
-    ? allRegions.filter((r) =>
-        r.toLowerCase().includes(region.toLowerCase())
-      ).slice(0, 5)
-    : [];
+  const handleRegionSelect = (region) => {
+    setSelectedRegion(region);
+    setRegionQuery(region);
+    setShowSuggestions(false);
+  };
 
-  /* =============================
-     Handlers
-  ============================== */
   const handleCuisine = () => {
-    if (!region) return;
-    applyFilter("cuisine", { region, page: 1 });
+    if (!selectedRegion) return;
+
+    applyFilter("cuisine", {
+      region: selectedRegion,
+      page: 1,
+      page_size: 10,
+    });
   };
 
   const handleCalories = () => {
     if (!minCalories || !maxCalories) return;
+
     applyFilter("calories", {
       minCalories,
       maxCalories,
-      page: 1,
+      limit: 10,
     });
   };
 
   const handleFlavor = () => {
     if (!flavor) return;
-    applyFilter("flavor", { flavor, page: 1 });
+
+    applyFilter("flavor", {
+      flavor,
+      page: 1,
+    });
   };
 
-  const handleDiet = () => {
-    if (!region || !diet) return;
+  const handleDietRegion = () => {
+    if (!selectedRegion || !diet) return;
+
     applyFilter("diet-region", {
-      region,
+      region: selectedRegion,
       diet,
       limit: 10,
     });
   };
 
   return (
-    <section className="py-14 bg-white border-t border-emerald-100">
-      <div className="mx-auto max-w-7xl px-4">
+    <section className="py-16 bg-white border-t border-emerald-100">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-        <h3 className="text-2xl font-bold text-slate-900 mb-8">
+        <h3 className="text-3xl font-bold text-slate-900 mb-10">
           Advanced Filters
         </h3>
 
-        {/* Single Row Layout */}
-        <div className="flex flex-wrap gap-6 items-end">
+        <div className="grid gap-6 lg:grid-cols-4">
 
-          {/* Region Autocomplete */}
-          <div className="relative min-w-[250px] flex-1">
-            <label className="text-sm font-semibold text-slate-600">
-              Region
-            </label>
+          {/* 🔥 REGION AUTOCOMPLETE */}
+          <div className="relative space-y-3">
+            <h4 className="font-semibold text-slate-700">Region</h4>
 
             <input
               type="text"
-              placeholder="Type region (e.g. Scandinavian)"
-              value={region}
-              onChange={(e) => setRegion(e.target.value)}
-              className="w-full rounded-xl border px-4 py-2 mt-1"
+              placeholder="Search Region..."
+              value={regionQuery}
+              onChange={(e) => {
+                setRegionQuery(e.target.value);
+                setShowSuggestions(true);
+              }}
+              onFocus={() => setShowSuggestions(true)}
+              className="w-full rounded-xl border px-4 py-2"
             />
 
-            {suggestions.length > 0 && (
-              <div className="absolute z-10 w-full bg-white border rounded-xl shadow-lg mt-1">
-                {suggestions.map((item, idx) => (
+            {showSuggestions && filteredRegions.length > 0 && (
+              <div className="absolute z-50 mt-1 max-h-48 w-full overflow-y-auto rounded-xl border bg-white shadow-lg">
+                {filteredRegions.map((region, index) => (
                   <div
-                    key={idx}
-                    onClick={() => {
-                      setRegion(item);
-                    }}
-                    className="px-4 py-2 hover:bg-emerald-50 cursor-pointer"
+                    key={index}
+                    onClick={() => handleRegionSelect(region)}
+                    className="cursor-pointer px-4 py-2 hover:bg-emerald-50"
                   >
-                    {item}
+                    {region}
                   </div>
                 ))}
               </div>
@@ -102,22 +101,48 @@ export default function AdvancedFilters({
 
             <button
               onClick={handleCuisine}
-              className="mt-3 w-full bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl py-2 font-semibold transition-all"
+              className="w-full bg-emerald-500 text-white rounded-xl py-2 font-semibold hover:bg-emerald-600 transition"
             >
-              Apply
+              Apply Cuisine
             </button>
           </div>
 
-          {/* Flavor */}
-          <div className="min-w-[200px] flex-1">
-            <label className="text-sm font-semibold text-slate-600">
-              Flavor
-            </label>
+          {/* CALORIES */}
+          <div className="space-y-3">
+            <h4 className="font-semibold text-slate-700">Calories</h4>
+
+            <input
+              type="number"
+              placeholder="Min"
+              value={minCalories}
+              onChange={(e) => setMinCalories(e.target.value)}
+              className="w-full rounded-xl border px-4 py-2"
+            />
+
+            <input
+              type="number"
+              placeholder="Max"
+              value={maxCalories}
+              onChange={(e) => setMaxCalories(e.target.value)}
+              className="w-full rounded-xl border px-4 py-2"
+            />
+
+            <button
+              onClick={handleCalories}
+              className="w-full bg-emerald-500 text-white rounded-xl py-2 font-semibold hover:bg-emerald-600 transition"
+            >
+              Apply Calories
+            </button>
+          </div>
+
+          {/* FLAVOR */}
+          <div className="space-y-3">
+            <h4 className="font-semibold text-slate-700">Flavor</h4>
 
             <select
               value={flavor}
               onChange={(e) => setFlavor(e.target.value)}
-              className="w-full rounded-xl border px-4 py-2 mt-1"
+              className="w-full rounded-xl border px-4 py-2"
             >
               <option value="">Select Flavor</option>
               <option value="spicy">Spicy</option>
@@ -127,53 +152,20 @@ export default function AdvancedFilters({
 
             <button
               onClick={handleFlavor}
-              className="mt-3 w-full bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl py-2 font-semibold transition-all"
+              className="w-full bg-emerald-500 text-white rounded-xl py-2 font-semibold hover:bg-emerald-600 transition"
             >
-              Apply
+              Apply Flavor
             </button>
           </div>
 
-          {/* Calories */}
-          <div className="min-w-[250px] flex-1">
-            <label className="text-sm font-semibold text-slate-600">
-              Calories Range
-            </label>
-
-            <div className="flex gap-2 mt-1">
-              <input
-                type="number"
-                placeholder="Min"
-                value={minCalories}
-                onChange={(e) => setMinCalories(e.target.value)}
-                className="w-full rounded-xl border px-3 py-2"
-              />
-              <input
-                type="number"
-                placeholder="Max"
-                value={maxCalories}
-                onChange={(e) => setMaxCalories(e.target.value)}
-                className="w-full rounded-xl border px-3 py-2"
-              />
-            </div>
-
-            <button
-              onClick={handleCalories}
-              className="mt-3 w-full bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl py-2 font-semibold transition-all"
-            >
-              Apply
-            </button>
-          </div>
-
-          {/* Diet */}
-          <div className="min-w-[220px] flex-1">
-            <label className="text-sm font-semibold text-slate-600">
-              Diet
-            </label>
+          {/* DIET */}
+          <div className="space-y-3">
+            <h4 className="font-semibold text-slate-700">Diet + Region</h4>
 
             <select
               value={diet}
               onChange={(e) => setDiet(e.target.value)}
-              className="w-full rounded-xl border px-4 py-2 mt-1"
+              className="w-full rounded-xl border px-4 py-2"
             >
               <option value="">Select Diet</option>
               <option value="vegan">Vegan</option>
@@ -182,10 +174,10 @@ export default function AdvancedFilters({
             </select>
 
             <button
-              onClick={handleDiet}
-              className="mt-3 w-full bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl py-2 font-semibold transition-all"
+              onClick={handleDietRegion}
+              className="w-full bg-emerald-500 text-white rounded-xl py-2 font-semibold hover:bg-emerald-600 transition"
             >
-              Apply
+              Apply Diet
             </button>
           </div>
 

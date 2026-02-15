@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState} from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
@@ -20,22 +20,35 @@ export default function Home() {
   const [pagination, setPagination] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filterResetKey, setFilterResetKey] = useState(0);
+  // const [filterResetKey, setFilterResetKey] = useState(0);
+  const [availableRegions, setAvailableRegions] = useState([]);
 
 
   // Compute regions directly from recipes
-  const regions = [...new Set(recipes.map(r => r.Region).filter(Boolean))].sort();
+  // const regions = [...new Set(recipes.map(r => r.Region).filter(Boolean))].sort();
 
 
 
-  const handleResults = (results, ingredients, paginationData) => {
-    setRecipes(results || []);
-    setSearchedIngredients(ingredients || []);
-    setPagination(paginationData || null);
-    setHasSearched(true);
-    setCurrentPage(1);
-    setFilterResetKey(prev => prev + 1);
-  };
+ const handleResults = (results, ingredients, paginationData) => {
+  const safeResults = Array.isArray(results) ? results : [];
+
+  setRecipes(safeResults);
+  setSearchedIngredients(ingredients || []);
+  setPagination(paginationData || null);
+  setHasSearched(true);
+  setCurrentPage(1);
+
+  // 🔥 Extract dynamic regions
+  const regions = [
+    ...new Set(
+      safeResults
+        .map((r) => r?.Region)
+        .filter((region) => typeof region === "string" && region.trim() !== "")
+    ),
+  ];
+
+  setAvailableRegions(regions);
+};
 
   const applyFilter = async (type, params) => {
     try {
@@ -94,9 +107,9 @@ export default function Home() {
         <IngredientAnalyzer onResults={handleResults} />
 
         <AdvancedFilters
-        key={filterResetKey}
+        // key={filterResetKey}
           applyFilter={applyFilter}
-          regions={regions}
+          regions={availableRegions}
         />
 
         <div id="results">

@@ -39,7 +39,7 @@ export default function FlavorModal({ ingredients, onClose }) {
         });
 
         setProfiles(profilesMap);
-      } catch (err) {
+      } catch  {
         setError("Failed to load flavor profiles. Please try again.");
       } finally {
         setLoading(false);
